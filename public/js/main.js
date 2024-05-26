@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const postAdSection = document.getElementById('postAdSection');
     const postAdForm = document.getElementById('postAdForm');
     const adsContainer = document.getElementById('adsContainer');
+    const modal = document.getElementById('modal');
+    const fullDescription = document.getElementById('fullDescription');
+    const closeButton = document.querySelector('.close-button');
 
     postAdButton.addEventListener('click', () => {
         postAdSection.classList.toggle('hidden');
@@ -18,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (response.ok) {
-            alert('Ad posted successfully');
+            alert('Успешно');
             postAdForm.reset();
             postAdSection.classList.add('hidden');
             loadAds();
@@ -36,21 +39,43 @@ document.addEventListener('DOMContentLoaded', () => {
             const adElement = document.createElement('div');
             adElement.classList.add('ad');
             adElement.innerHTML = `
-          ${ad.images.map(image => `
-          <div class="cont_one">
-          <img src="images/${image}" alt="Ad Image">`).join('')}
-          </div>
-         
-          <div class="cont_two">
-            <h3>${ad.title}</h3>
-            <p>${ad.description}</p>
-            <p><strong>Категория:</strong> ${ad.category}</p>
-            <h3>${ad.price} ₽</h3>
-          </div>
-        `;
+                ${ad.images.map(image => `
+                    <div class="cont_one">
+                        <img src="images/${image}" alt="Ad Image">
+                    </div>
+                `).join('')}
+                <div class="cont_two">
+                    <h3>${ad.title}</h3>
+                    <p>${ad.description.slice(0, 20)}${ad.description.length > 20 ? '...' : ''}</p>
+                    <button class="show-more-button" data-full-description="${ad.description}">Показать больше</button>
+                    <p>Номер: ${ad.telephone}</p>
+                    <p><strong>Категория:</strong> ${ad.category}</p>
+                    <h3>${ad.price} ₽</h3>
+                </div>
+            `;
             adsContainer.appendChild(adElement);
         });
+
+        document.querySelectorAll('.show-more-button').forEach(button => {
+            button.addEventListener('click', () => {
+                fullDescription.textContent = button.getAttribute('data-full-description');
+                modal.classList.remove('hidden');
+                modal.style.display = 'block';
+            });
+        });
     }
+
+    closeButton.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target == modal) {
+            modal.classList.add('hidden');
+            modal.style.display = 'none';
+        }
+    });
 
     loadAds();
 });

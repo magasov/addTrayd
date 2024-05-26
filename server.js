@@ -26,12 +26,13 @@ const upload = multer({ storage: storage });
 const Ad = require('./models/Ad');
 
 app.post('/api/ads', upload.array('images', 3), (req, res) => {
-    const { title, price, description, category } = req.body;
+    const { title, price, telephone, description, category } = req.body;
     const images = req.files.map(file => file.filename);
 
     const newAd = new Ad({
         title,
         price,
+        telephone,
         description,
         category,
         images,

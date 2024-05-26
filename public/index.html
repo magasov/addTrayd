@@ -25,6 +25,7 @@
       <h2>Добавить объявление</h2> <br>
       <form id="postAdForm" enctype="multipart/form-data">
         <input type="text" maxlength="20" name="title" placeholder="Заголовок" required> <br>
+        <input type="text" name="telephone" maxlength="11" placeholder="Номер телефона" required> <br>
         <input type="number" name="price" placeholder="Цена" required> <br>
         <textarea name="description" placeholder="Описание" required></textarea> <br>
         <select name="category" required>
@@ -39,6 +40,12 @@
     <section id="adsSection">
       <h2>Главная</h2>
       <div id="adsContainer"></div>
+      <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <p id="fullDescription"></p>
+        </div>
+    </div>
     </section>
   </main>
   <script src="js/main.js"></script>

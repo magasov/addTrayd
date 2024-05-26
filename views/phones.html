@@ -28,10 +28,18 @@
         const adElement = document.createElement('div');
         adElement.classList.add('ad');
         adElement.innerHTML = `
-          <h3>${ad.title}</h3>
-          <p>${ad.description}</p>
-          <p><strong>Категория:</strong> ${ad.category}</p>
-          ${ad.images.map(image => `<img src="/images/${image}" alt="Ad Image">`).join('')}
+          <div class="cont_one">
+            ${ad.images.map(image => `<img src="/images/${image}" alt="Ad Image">`).join('')}
+          </div>
+
+          <div class="cont_two">
+            <h3>${ad.title}</h3>
+            <p>${ad.description}</p>
+            <p>${ad.telephone}</p>
+            <p><strong>Категория:</strong> ${ad.category}</p>
+            <h3>${ad.price}</h3>
+          </div>
+        
         `;
         adsContainer.appendChild(adElement);
       });
