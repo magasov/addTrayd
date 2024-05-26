@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Беркат-трейд</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header>
+    <div class="header">
+        <img src="./logo.svg"  class="logo">
+        <button id="postAdButton">Добавить объявление</button>
+    </div>
+    <!-- <h1>Berkat-trayd</h1> -->
+    
+    <nav>
+      <a href="/services">Услуги</a>
+      <a href="/phones">Телефоны</a>
+      <a href="/cars">Транспорт</a>
+    </nav>
+  </header>
+  <main>
+    <section id="postAdSection" class="hidden">
+      <h2>Добавить объявление</h2> <br>
+      <form id="postAdForm" enctype="multipart/form-data">
+        <input type="text" maxlength="20" name="title" placeholder="Заголовок" required> <br>
+        <input type="number" name="price" placeholder="Цена" required> <br>
+        <textarea name="description" placeholder="Описание" required></textarea> <br>
+        <select name="category" required>
+          <option value="services">Услуги</option>
+          <option value="phones">Телефоны</option>
+          <option value="cars">Транспорт</option> 
+        </select><br>
+        <input type="file" name="images" accept="image/*" multiple> <br>
+        <button type="submit">Опубликовать</button>
+      </form>
+    </section>
+    <section id="adsSection">
+      <h2>Главная</h2>
+      <div id="adsContainer"></div>
+    </section>
+  </main>
+  <script src="js/main.js"></script>
+</body>
+</html>

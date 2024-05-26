@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Услуги</h1>
+    <a href="/">На главную</a>
+  </header>
+  <main>
+    <section id="adsSection">
+      <h2>Все услуги</h2>
+      <div id="adsContainer"></div>
+    </section>
+  </main>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const response = await fetch('/api/ads/services');
+      const ads = await response.json();
+      const adsContainer = document.getElementById('adsContainer');
+
+      adsContainer.innerHTML = '';
+      ads.forEach(ad => {
+        const adElement = document.createElement('div');
+        adElement.classList.add('ad');
+        adElement.innerHTML = `
+          <h3>${ad.title}</h3>
+          <p>${ad.description}</p>
+          <p><strong>Категория:</strong> ${ad.category}</p>
+          ${ad.images.map(image => `<img src="/images/${image}" alt="Ad Image">`).join('')}
+        `;
+        adsContainer.appendChild(adElement);
+      });
+    });
+  </script>
+</body>
+</html>
