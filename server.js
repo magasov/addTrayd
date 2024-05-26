@@ -5,17 +5,14 @@ const multer = require('multer');
 const path = require('path');
 const app = express();
 
-// MongoDB setup
 mongoose.connect('mongodb+srv://magasov:12345@magasov.pnjqkm6.mongodb.net/?retryWrites=true&w=majority&appName=magasov')
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.error('MongoDB connection error:', err));
 
-// Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Multer setup for image uploads
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'public/images');
@@ -26,10 +23,8 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-// Models
 const Ad = require('./models/Ad');
 
-// Routes
 app.post('/api/ads', upload.array('images', 3), (req, res) => {
     const { title, price, description, category } = req.body;
     const images = req.files.map(file => file.filename);
@@ -61,7 +56,6 @@ app.get('/api/ads/:category', (req, res) => {
         .catch(err => res.status(500).send(err));
 });
 
-// Route for category pages
 app.get('/services', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'services.html'));
 });
@@ -74,7 +68,6 @@ app.get('/cars', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'cars.html'));
 });
 
-// Start server
 app.listen(3000, () => {
     console.log('Server started on http://localhost:3000');
 });
