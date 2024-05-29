@@ -33,6 +33,12 @@
       const response = await fetch('/api/ads/phones');
       const ads = await response.json();
       const adsContainer = document.getElementById('adsContainer');
+      const modal = document.getElementById('modal');
+      const fullDescription = document.getElementById('fullDescription');
+      const sliderImages = document.querySelector('.slider-images');
+      const closeButton = document.querySelector('.close-button');
+
+      let currentSlideIndex = 0;
 
       adsContainer.innerHTML = '';
       ads.forEach(ad => {
@@ -40,20 +46,72 @@
         adElement.classList.add('ad');
         adElement.innerHTML = `
           <div class="cont_one">
-            ${ad.images.map(image => `<img src="/images/${image}" alt="Ad Image">`).join('')}
+            ${ad.images.map((image, index) => `<img src="/images/${image}" alt="Ad Image" ${index === 0 ? '' : 'style="display: none;"'}>`).join('')}
           </div>
-
           <div class="cont_two">
             <h3>${ad.title}</h3>
-            <p>${ad.description}</p>
-            <p>${ad.telephone}</p>
+            <p>${ad.description.slice(0, 20)}${ad.description.length > 20 ? '...' : ''}</p>
+            <button class="show-more-button" data-full-description="${ad.description}" data-images='${JSON.stringify(ad.images)}'>Показать больше</button>
+            <p>Номер: ${ad.telephone}</p>
             <p><strong>Категория:</strong> ${ad.category}</p>
-            <h3>${ad.price}</h3>
+            <h3>${ad.price} ₽</h3>
           </div>
-        
         `;
         adsContainer.appendChild(adElement);
+
+        // Add event listener for "show more" button
+        const showMoreButton = adElement.querySelector('.show-more-button');
+        showMoreButton.addEventListener('click', () => {
+          const fullDescriptionText = showMoreButton.getAttribute('data-full-description');
+          const images = JSON.parse(showMoreButton.getAttribute('data-images'));
+
+          // Update modal content
+          fullDescription.innerHTML = fullDescriptionText;
+          sliderImages.innerHTML = images.map(image => `<img src="/images/${image}" alt="Ad Image">`).join('');
+          
+          // Show modal
+          modal.classList.remove('hidden');
+          modal.style.display = 'block'; // Show modal
+          currentSlideIndex = 0; // Reset slide index
+          updateSlider(); // Update slider
+        });
       });
+
+      closeButton.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        modal.style.display = 'none'; // Hide modal
+      });
+
+      window.addEventListener('click', (event) => {
+        if (event.target == modal) {
+          modal.classList.add('hidden');
+          modal.style.display = 'none'; // Hide modal
+        }
+      });
+
+      // Slider functionality
+      document.querySelectorAll('.slider .prev').forEach(button => {
+        button.addEventListener('click', () => {
+          currentSlideIndex = (currentSlideIndex - 1 + sliderImages.children.length) % sliderImages.children.length;
+          updateSlider();
+        });
+      });
+
+      document.querySelectorAll('.slider .next').forEach(button => {
+        button.addEventListener('click', () => {
+          currentSlideIndex = (currentSlideIndex + 1) % sliderImages.children.length;
+          updateSlider();
+        });
+      });
+
+      function updateSlider() {
+        // Hide all images
+        sliderImages.querySelectorAll('img').forEach(img => {
+          img.style.display = 'none';
+        });
+        // Display current slide
+        sliderImages.children[currentSlideIndex].style.display = 'block';
+      }
     });
   </script>
 </body>
