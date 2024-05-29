@@ -25,7 +25,7 @@ const upload = multer({ storage: storage });
 
 const Ad = require('./models/Ad');
 
-app.post('/api/ads', upload.array('images', 3), (req, res) => {
+app.post('/api/ads', upload.array('images', 10), (req, res) => {
     const { title, price, telephone, description, category } = req.body;
     const images = req.files.map(file => file.filename);
 
@@ -43,6 +43,7 @@ app.post('/api/ads', upload.array('images', 3), (req, res) => {
         .then(ad => res.status(200).send(ad))
         .catch(err => res.status(500).send(err));
 });
+
 
 app.get('/api/ads', (req, res) => {
     Ad.find().sort({ createdAt: -1 }).exec()

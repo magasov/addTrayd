@@ -33,7 +33,16 @@
           <option value="phones">Телефоны</option>
           <option value="cars">Транспорт</option> 
         </select><br>
-        <input type="file" name="images" accept="image/*" multiple> <br>
+        <input type="file" name="images" accept="image/*" multiple required> <br>
+        <input type="file" name="images" accept="image/*" multiple required> <br>
+        <input type="file" name="images" accept="image/*" multiple required> <br>
+        <input type="file" name="images" accept="image/*" multiple required> <br>
+        <input type="file" name="images" accept="image/*" multiple required> <br>
+        <input type="file" name="images" accept="image/*" multiple required> <br>
+        <input type="file" name="images" accept="image/*" multiple required> <br>
+        <input type="file" name="images" accept="image/*" multiple required> <br>
+        <input type="file" name="images" accept="image/*" multiple required> <br>
+        <input type="file" name="images" accept="image/*" multiple required> <br>
         <button type="submit">Опубликовать</button>
       </form>
     </section>
@@ -41,11 +50,17 @@
       <h2>Главная</h2>
       <div id="adsContainer"></div>
       <div id="modal" class="modal hidden">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <p id="fullDescription"></p>
-        </div>
-    </div>
+          <div class="modal-content">
+              <span class="close-button">&times;</span>
+              <div id="fullDescription"></div>
+              <div class="slider">
+                  <button class="prev">&laquo;</button>
+                  <div class="slider-images"></div>
+                  <button class="next">&raquo;</button>
+              </div>
+          </div>
+      </div>
+
     </section>
   </main>
   <script src="js/main.js"></script>
