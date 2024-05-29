@@ -5,10 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const adsContainer = document.getElementById('adsContainer');
     const modal = document.getElementById('modal');
     const fullDescription = document.getElementById('fullDescription');
-    const closeButton = document.querySelector('.close-button');
     const sliderImages = document.querySelector('.slider-images');
     const prevButton = document.querySelector('.prev');
     const nextButton = document.querySelector('.next');
+    const addFileInputButton = document.getElementById('addFileInputButton');
+    const fileInputsContainer = document.getElementById('fileInputsContainer');
+    const closeButton = document.querySelector('.close-button'); // Вот это строка
+
     let currentSlideIndex = 0;
 
     postAdButton.addEventListener('click', () => {
@@ -30,9 +33,25 @@ document.addEventListener('DOMContentLoaded', () => {
             postAdSection.classList.add('hidden');
             loadAds();
         } else {
-            alert('Failed to post ad');
+            alert('Не удалось опубликовать объявление');
         }
     });
+
+    addFileInputButton.addEventListener('click', () => {
+        if (fileInputsContainer.querySelectorAll('input[type="file"]').length < 10) {
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.name = 'images';
+            fileInput.accept = 'image/*';
+            fileInput.multiple = true;
+            fileInput.required = true;
+            fileInputsContainer.appendChild(fileInput);
+            fileInputsContainer.appendChild(document.createElement('br'));
+        } else {
+            alert('Максимальное количество изображений достигнуто');
+        }
+    });
+
 
     async function loadAds() {
         const response = await fetch('/api/ads');
